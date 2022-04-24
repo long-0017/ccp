@@ -19,6 +19,7 @@ public class ccpController {
 
     @RequestMapping(value = "/find/{id}",method = RequestMethod.GET)
     public String findByPrimaryIdGet(@PathVariable String id){
+        logger.info("master");
         logger.info("start method: \"{}\".","findByPrimaryIdGet");
         TblCcp tblCcp;
         if( (tblCcp = tblCcpService.selectByPrimaryKey(id)) == null){
