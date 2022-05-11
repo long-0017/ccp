@@ -2,6 +2,7 @@ package com.allinfinance.ccp.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.allinfinance.ccp.model.TblCcp;
+import com.allinfinance.ccp.model.TblCcpExample;
 import com.allinfinance.ccp.service.TblCcpService;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.sun.javafx.binding.StringFormatter;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -39,5 +42,14 @@ public class ccpController {
         }
         logger.info("select {}",ccp.getString("id"));
         return tblCcp.toString();
+    }
+    @RequestMapping(value = "/findAll",method = RequestMethod.POST)
+    public String findAll(){
+        logger.info("start method: \"{}\".","findAll");
+        TblCcpExample tblCcpExample = new TblCcpExample();
+        tblCcpExample.createCriteria().andIdGreaterThan(String.valueOf(0));
+        List<TblCcp> tblCcpList=tblCcpService.selectByExample(tblCcpExample);
+        logger.info("end method: \"{}\".","findAll");
+        return JSONObject.toJSONString(tblCcpList);
     }
 }
